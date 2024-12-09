@@ -108,4 +108,8 @@ public class InputView {
         return br.readLine();
     }
 
+    public String registerSectionPosition() throws IOException {
+        System.out.println("## 순서를 입력하세요.");
+        return br.readLine();
+    }
 }

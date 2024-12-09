@@ -6,7 +6,6 @@ import static subway.utils.exception.ErrorMessage.REGISTERED_STATION;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import subway.utils.exception.SubwayException;
 
 public class LineRepository {
@@ -20,8 +19,14 @@ public class LineRepository {
         lines.add(line);
     }
 
-    public static boolean deleteLineByName(String name) {
-        return lines.removeIf(line -> Objects.equals(line.getName(), name));
+    public static void deleteLineByName(String name) {
+        for (Line line : lines) {
+            if (line.getName().equals(name)) {
+                lines.remove(line);
+                return;
+            }
+        }
+        throw new SubwayException(NOT_EXIST_LINE);
     }
 
     public static Line findLineByName(String name) {
@@ -35,10 +40,16 @@ public class LineRepository {
     }
 
     public static void checkRegistered(String name) {
+
+        boolean registered = false;
         for (Line line : lines) {
             if (line.checkRegistered(name)) {
-                throw new SubwayException(REGISTERED_STATION);
+                registered = true;
             }
+        }
+
+        if (registered) {
+            throw new SubwayException(REGISTERED_STATION);
         }
     }
 

@@ -1,6 +1,8 @@
 package subway.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import subway.domain.Line;
 import subway.domain.LineRepository;
 import subway.domain.Station;
@@ -57,13 +59,13 @@ public class SubwayController {
 
                 if (lineManagementInput.equals("1")) {
                     String lineName = inputView.lineRegisterInput();
-                    LineRepository.addLine(new Line(lineName));
 
-                    Line line = LineRepository.findLineByName(lineName);
+                    List<Station> stations = new ArrayList<>();
 
-                    line.addStation(new Station(inputView.lineUpBoundTerminalInput()));
-                    line.addStation(new Station(inputView.lineDownBoundTerminalInput()));
-
+                    stations.add(StationRepository.findStationByName(inputView.lineUpBoundTerminalInput()));
+                    stations.add(StationRepository.findStationByName(inputView.lineDownBoundTerminalInput()));
+                    Line line = new Line(lineName, stations);
+                    LineRepository.addLine(line);
                     outputView.printRegisterLine();
                     run();
                 }
@@ -90,11 +92,12 @@ public class SubwayController {
 
                 if (sectionManagement.equals("1")) {
                     String registerSectionOfLine = inputView.registerSectionOfLine();
-                    String registerSectionOfStation = inputView.registerSectionOfStation();
                     Line line = LineRepository.findLineByName(registerSectionOfLine);
-                    Station station = line.findStationByName(registerSectionOfStation);
-
-                    line.addStation(station);
+                    String registerSectionOfStation = inputView.registerSectionOfStation();
+                    line.checkAlreadyRegistered(registerSectionOfStation);
+                    Station station = StationRepository.findStationByName(registerSectionOfStation);
+                    int position = Converter.toInteger(inputView.registerSectionPosition());
+                    line.addStationWithPosition(station, position);
 
                     outputView.printRegisterSection();
                     run();
@@ -136,35 +139,34 @@ public class SubwayController {
             StationRepository.addStation(new Station(station));
         }
 
-        String[] lines = {"2호선", "3호선", "신분당선"};
-
-        for (String line : lines) {
-            LineRepository.addLine(new Line(line));
-        }
         initialLineTwo();
         initialLineThree();
         initialLineShinbundangLine();
     }
 
     private void initialLineTwo() {
-        Line line = LineRepository.findLineByName("2호선");
-        line.addStation(StationRepository.findStationByName("교대역"));
-        line.addStation(StationRepository.findStationByName("강남역"));
-        line.addStation(StationRepository.findStationByName("역삼역"));
+        List<Station> stations = new ArrayList<>();
+        stations.add(StationRepository.findStationByName("교대역"));
+        stations.add(StationRepository.findStationByName("강남역"));
+        stations.add(StationRepository.findStationByName("역삼역"));
+        LineRepository.addLine(new Line("2호선", stations));
     }
 
     private void initialLineThree() {
-        Line line = LineRepository.findLineByName("3호선");
-        line.addStation(StationRepository.findStationByName("교대역"));
-        line.addStation(StationRepository.findStationByName("남부터미널역"));
-        line.addStation(StationRepository.findStationByName("양재역"));
-        line.addStation(StationRepository.findStationByName("매봉역"));
+        List<Station> stations = new ArrayList<>();
+        stations.add(StationRepository.findStationByName("교대역"));
+        stations.add(StationRepository.findStationByName("남부터미널역"));
+        stations.add(StationRepository.findStationByName("양재역"));
+        stations.add(StationRepository.findStationByName("매봉역"));
+        LineRepository.addLine(new Line("3호선", stations));
     }
 
     private void initialLineShinbundangLine() {
-        Line line = LineRepository.findLineByName("신분당선");
-        line.addStation(StationRepository.findStationByName("강남역"));
-        line.addStation(StationRepository.findStationByName("양재역"));
-        line.addStation(StationRepository.findStationByName("양재시민의숲역"));
+        List<Station> stations = new ArrayList<>();
+        stations.add(StationRepository.findStationByName("강남역"));
+        stations.add(StationRepository.findStationByName("양재역"));
+        stations.add(StationRepository.findStationByName("양재시민의숲역"));
+        LineRepository.addLine(new Line("신분당선", stations));
+
     }
 }

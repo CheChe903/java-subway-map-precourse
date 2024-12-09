@@ -5,7 +5,6 @@ import static subway.utils.exception.ErrorMessage.NOT_EXIST_STATION;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import subway.utils.exception.SubwayException;
 
 public class StationRepository {
@@ -20,7 +19,13 @@ public class StationRepository {
     }
 
     public static void deleteStation(String name) {
-        stations.removeIf(station -> Objects.equals(station.getName(), name));
+        for (Station station : stations) {
+            if (station.getName().equals(name)) {
+                stations.remove(station);
+                return;
+            }
+        }
+        throw new SubwayException(NOT_EXIST_STATION);
     }
 
     public static boolean existStation(String name) {
