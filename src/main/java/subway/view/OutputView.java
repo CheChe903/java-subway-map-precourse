@@ -39,4 +39,13 @@ public class OutputView {
             System.out.println(line.getName());
         }
     }
+
+    public void printDeleteSection() {
+        System.out.println(PREFIX + "구간이 삭제되었습니다.");
+    }
+
+    public void printRegisterSection() {
+        System.out.println(PREFIX + "구간이 등록되었습니다.");
+    }
+    
 }

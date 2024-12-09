@@ -33,6 +33,7 @@ public class SubwayController {
                 if (stationManagementInput.equals("1")) {
                     StationRepository.addStation(new Station(inputView.stationRegisterInput()));
                     outputView.printRegisterStation();
+                    run();
                 }
 
                 if (stationManagementInput.equals("2")) {
@@ -40,9 +41,11 @@ public class SubwayController {
                     LineRepository.checkRegistered(deleteStationName);
                     StationRepository.deleteStation(deleteStationName);
                     outputView.printDeleteStation();
+                    run();
                 }
                 if (stationManagementInput.equals("3")) {
                     outputView.printStations(StationRepository.stations());
+                    run();
                 }
 
                 if (stationManagementInput.equals("B")) {
@@ -62,17 +65,58 @@ public class SubwayController {
                     line.addStation(new Station(inputView.lineDownBoundTerminalInput()));
 
                     outputView.printRegisterLine();
+                    run();
                 }
 
                 if (lineManagementInput.equals("2")) {
                     LineRepository.deleteLineByName(inputView.lineDeleteInput());
                     outputView.printDeleteLine();
+                    run();
                 }
 
                 if (lineManagementInput.equals("3")) {
                     outputView.printLines(LineRepository.lines());
+                    run();
                 }
 
+                if (lineManagementInput.equals("B")) {
+                    run();
+                }
+
+            }
+
+            if (mainInput == 3) {
+                String sectionManagement = inputView.sectionInput();
+
+                if (sectionManagement.equals("1")) {
+                    String registerSectionOfLine = inputView.registerSectionOfLine();
+                    String registerSectionOfStation = inputView.registerSectionOfStation();
+                    Line line = LineRepository.findLineByName(registerSectionOfLine);
+                    Station station = line.findStationByName(registerSectionOfStation);
+
+                    line.addStation(station);
+
+                    outputView.printRegisterSection();
+                    run();
+                }
+
+                if (sectionManagement.equals("2")) {
+                    String deleteSectionOfLine = inputView.deleteSectionOfLine();
+                    String deleteSectionOfStation = inputView.deleteSectionOfStation();
+
+                    Line line = LineRepository.findLineByName(deleteSectionOfLine);
+
+                    Station station = line.findStationByName(deleteSectionOfStation);
+
+                    line.deleteStation(station.getName());
+
+                    outputView.printDeleteSection();
+                    run();
+                }
+
+                if (sectionManagement.equals("B")) {
+                    run();
+                }
             }
         } catch (SubwayException e) {
             System.out.println(e.getMessage());

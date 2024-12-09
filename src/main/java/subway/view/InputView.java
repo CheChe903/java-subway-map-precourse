@@ -19,14 +19,14 @@ public class InputView {
     }
 
     public String stationManagementInput() throws IOException {
-        System.out.println("## 원하는 기능을 선택하세요.");
-        System.out.println();
         System.out.println("## 역 관리 화면");
         System.out.println("1. 역 등록");
         System.out.println("2. 역 삭제");
         System.out.println("3. 역 조회");
         System.out.println("B. 돌아가기");
 
+        System.out.println();
+        System.out.println("## 원하는 기능을 선택하세요.");
         return br.readLine();
     }
 
@@ -41,13 +41,14 @@ public class InputView {
     }
 
     public String lineManagementInput() throws IOException {
-        System.out.println("## 원하는 기능을 선택하세요.");
-        System.out.println();
         System.out.println("## 노선 관리 화면");
         System.out.println("1. 노선 등록");
         System.out.println("2. 노선 삭제");
         System.out.println("3. 노선 조회");
         System.out.println("B. 돌아가기");
+
+        System.out.println();
+        System.out.println("## 원하는 기능을 선택하세요.");
 
         return br.readLine();
     }
@@ -73,7 +74,37 @@ public class InputView {
         return br.readLine();
     }
 
-    public String input() throws IOException {
+    public String sectionInput() throws IOException {
+        System.out.println("## 구간 관리 화면");
+        System.out.println("1. 구간 등록");
+        System.out.println("2. 구간 삭제");
+        System.out.println("B. 돌아가기");
+
+        System.out.println();
+        System.out.println("## 원하는 기능을 선택하세요.");
+
+        return br.readLine();
+
+    }
+
+    public String deleteSectionOfLine() throws IOException {
+        System.out.println("## 삭제할 구간의 노선을 입력하세요.");
         return br.readLine();
     }
+
+    public String deleteSectionOfStation() throws IOException {
+        System.out.println("## 삭제할 구간의 역을 입력하세요.");
+        return br.readLine();
+    }
+
+    public String registerSectionOfLine() throws IOException {
+        System.out.println("## 등록할 구간의 노선을 입력하세요.");
+        return br.readLine();
+    }
+
+    public String registerSectionOfStation() throws IOException {
+        System.out.println("## 등록할 구간의 역을 입력하세요.");
+        return br.readLine();
+    }
+
 }
