@@ -13,4 +13,12 @@ public class OutputView {
         }
     }
 
+    public void printRegisterStation() {
+        System.out.println(PREFIX + "지하철 역이 등록되었습니다.");
+    }
+
+    public void printDeleteStation() {
+        System.out.println(PREFIX + "지하철 역이 삭제되었습니다.");
+    }
+
 }

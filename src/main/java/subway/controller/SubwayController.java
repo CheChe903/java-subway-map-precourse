@@ -29,12 +29,14 @@ public class SubwayController {
 
             if (stationManagementInput == 1) {
                 StationRepository.addStation(new Station(inputView.input()));
+                outputView.printRegisterStation();
             }
 
             if (stationManagementInput == 2) {
                 String deleteStationName = inputView.input();
                 LineRepository.checkRegistered(deleteStationName);
                 StationRepository.deleteStation(deleteStationName);
+                outputView.printDeleteStation();
             }
             if (stationManagementInput == 3) {
                 outputView.printStations(StationRepository.stations());
