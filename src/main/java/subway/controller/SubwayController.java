@@ -1,9 +1,11 @@
 package subway.controller;
 
+import java.io.IOException;
 import subway.domain.Line;
 import subway.domain.LineRepository;
 import subway.domain.Station;
 import subway.domain.StationRepository;
+import subway.utils.Converter;
 import subway.view.InputView;
 import subway.view.OutputView;
 
@@ -18,8 +20,17 @@ public class SubwayController {
         this.outputView = outputView;
     }
 
-    public void run() {
+    public void run() throws IOException {
         initializeSubway();
+        int mainInput = Converter.toInteger(inputView.mainInput());
+
+        if (mainInput == 1) {
+            int stationManagementInput = Converter.toInteger(inputView.stationManagementInput());
+
+            if (stationManagementInput == 1) {
+                StationRepository.addStation(new Station(inputView.input()));
+            }
+        }
     }
 
     private void initializeSubway() {
