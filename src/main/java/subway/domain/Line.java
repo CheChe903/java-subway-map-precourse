@@ -4,13 +4,15 @@ import static subway.utils.exception.ErrorMessage.DUPLICATE_LINE_NAME;
 import static subway.utils.exception.ErrorMessage.MUST_BE_LONG_THAN_TWO;
 import static subway.utils.exception.ErrorMessage.NOT_EXIST_STATION;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import subway.utils.exception.SubwayException;
 
 public class Line {
     private String name;
-    private List<Station> stations;
+    private final List<Station> stations = new ArrayList<>();
 
     public Line(String name) {
         validateNameLength(name);
@@ -62,5 +64,7 @@ public class Line {
         }
     }
 
-
+    public List<Station> stations() {
+        return Collections.unmodifiableList(stations);
+    }
 }

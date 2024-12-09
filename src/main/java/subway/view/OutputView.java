@@ -47,5 +47,21 @@ public class OutputView {
     public void printRegisterSection() {
         System.out.println(PREFIX + "구간이 등록되었습니다.");
     }
-    
+
+    public void printSubwayRouteMap(List<Line> lines) {
+
+        System.out.println("## 지하철 노선도");
+        for (Line line : lines) {
+            System.out.print(PREFIX);
+            System.out.println(line.getName());
+            System.out.print(PREFIX);
+            System.out.println("--- ");
+
+            for (Station station : line.stations()) {
+                System.out.print(PREFIX);
+                System.out.println(station.getName());
+            }
+            System.out.println();
+        }
+    }
 }

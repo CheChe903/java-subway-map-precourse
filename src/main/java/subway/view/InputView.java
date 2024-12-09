@@ -2,10 +2,11 @@ package subway.view;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class InputView {
 
-    private BufferedReader br;
+    private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public String mainInput() throws IOException {
         System.out.println("## 메인 화면");

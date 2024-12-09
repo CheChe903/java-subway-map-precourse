@@ -118,6 +118,11 @@ public class SubwayController {
                     run();
                 }
             }
+
+            if (mainInput == 4) {
+                outputView.printSubwayRouteMap(LineRepository.lines());
+                run();
+            }
         } catch (SubwayException e) {
             System.out.println(e.getMessage());
             run();
@@ -160,6 +165,6 @@ public class SubwayController {
         Line line = LineRepository.findLineByName("신분당선");
         line.addStation(StationRepository.findStationByName("강남역"));
         line.addStation(StationRepository.findStationByName("양재역"));
-        line.addStation(StationRepository.findStationByName("양재시민숲역"));
+        line.addStation(StationRepository.findStationByName("양재시민의숲역"));
     }
 }
