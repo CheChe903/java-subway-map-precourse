@@ -6,6 +6,7 @@ import subway.domain.LineRepository;
 import subway.domain.Station;
 import subway.domain.StationRepository;
 import subway.utils.Converter;
+import subway.utils.exception.SubwayException;
 import subway.view.InputView;
 import subway.view.OutputView;
 
@@ -18,30 +19,55 @@ public class SubwayController {
     public SubwayController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
+        initializeSubway();
     }
 
     public void run() throws IOException {
-        initializeSubway();
-        int mainInput = Converter.toInteger(inputView.mainInput());
+        try {
+            int mainInput = Converter.toInteger(inputView.mainInput());
 
-        if (mainInput == 1) {
-            int stationManagementInput = Converter.toInteger(inputView.stationManagementInput());
+            if (mainInput == 1) {
 
-            if (stationManagementInput == 1) {
-                StationRepository.addStation(new Station(inputView.input()));
-                outputView.printRegisterStation();
-            }
+                String stationManagementInput = inputView.stationManagementInput();
 
-            if (stationManagementInput == 2) {
-                String deleteStationName = inputView.input();
-                LineRepository.checkRegistered(deleteStationName);
-                StationRepository.deleteStation(deleteStationName);
-                outputView.printDeleteStation();
+                if (stationManagementInput.equals("1")) {
+                    StationRepository.addStation(new Station(inputView.stationRegisterInput()));
+                    outputView.printRegisterStation();
+                }
+
+                if (stationManagementInput.equals("2")) {
+                    String deleteStationName = inputView.stationDeleteInput();
+                    LineRepository.checkRegistered(deleteStationName);
+                    StationRepository.deleteStation(deleteStationName);
+                    outputView.printDeleteStation();
+                }
+                if (stationManagementInput.equals("3")) {
+                    outputView.printStations(StationRepository.stations());
+                }
+
+                if (stationManagementInput.equals("B")) {
+                    run();
+                }
             }
-            if (stationManagementInput == 3) {
-                outputView.printStations(StationRepository.stations());
+            if (mainInput == 2) {
+                String lineManagementInput = inputView.lineManagementInput();
+
+                if (lineManagementInput.equals("1")) {
+                    String lineName = inputView.lineRegisterInput();
+                    LineRepository.addLine(new Line(lineName));
+
+                    Line line = LineRepository.findLineByName(lineName);
+
+                    line.addStation(new Station(inputView.lineUpBoundTerminalInput()));
+                    line.addStation(new Station(inputView.lineDownBoundTerminalInput()));
+                }
+                outputView.printRegisterLine();
             }
+        } catch (SubwayException e) {
+            System.out.println(e.getMessage());
+            run();
         }
+
     }
 
     private void initializeSubway() {

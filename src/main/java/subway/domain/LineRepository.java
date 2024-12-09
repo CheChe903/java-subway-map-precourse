@@ -41,4 +41,14 @@ public class LineRepository {
             }
         }
     }
+
+    public static boolean existLine(String name) {
+        for (Line line : lines) {
+            if (line.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
+

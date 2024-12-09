@@ -21,4 +21,7 @@ public class OutputView {
         System.out.println(PREFIX + "지하철 역이 삭제되었습니다.");
     }
 
+    public void printRegisterLine() {
+        System.out.println(PREFIX + "지하철 노선이 등록되었습니다.");
+    }
 }

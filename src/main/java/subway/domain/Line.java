@@ -1,12 +1,18 @@
 package subway.domain;
 
+import static subway.utils.exception.ErrorMessage.DUPLICATE_LINE_NAME;
+import static subway.utils.exception.ErrorMessage.MUST_BE_LONG_THAN_TWO;
+
 import java.util.List;
+import subway.utils.exception.SubwayException;
 
 public class Line {
     private String name;
     private List<Station> stations;
 
     public Line(String name) {
+        validateNameLength(name);
+        validateDuplicateName(name);
         this.name = name;
     }
 
@@ -26,5 +32,17 @@ public class Line {
             }
         }
         return false;
+    }
+
+    private void validateNameLength(String name) {
+        if (name.length() < 2) {
+            throw new SubwayException(MUST_BE_LONG_THAN_TWO);
+        }
+    }
+
+    private void validateDuplicateName(String name) {
+        if (LineRepository.existLine(name)) {
+            throw new SubwayException(DUPLICATE_LINE_NAME);
+        }
     }
 }

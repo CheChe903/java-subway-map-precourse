@@ -30,6 +30,16 @@ public class InputView {
         return br.readLine();
     }
 
+    public String stationRegisterInput() throws IOException {
+        System.out.println("## 등록할 역 이름을 입력하세요.");
+        return br.readLine();
+    }
+
+    public String stationDeleteInput() throws IOException {
+        System.out.println("## 삭제할 역 이름을 입력하세요.");
+        return br.readLine();
+    }
+
     public String lineManagementInput() throws IOException {
         System.out.println("## 원하는 기능을 선택하세요.");
         System.out.println();
@@ -39,6 +49,27 @@ public class InputView {
         System.out.println("3. 노선 조회");
         System.out.println("B. 돌아가기");
 
+        return br.readLine();
+    }
+
+    public String lineRegisterInput() throws IOException {
+        System.out.println("## 등록할 노선 이름을 입력하세요.");
+        return br.readLine();
+    }
+
+    public String lineUpBoundTerminalInput() throws IOException {
+        System.out.println("## 등록할 노선의 상행 종점역 이름을 입력하세요.");
+        return br.readLine();
+    }
+
+    public String lineDownBoundTerminalInput() throws IOException {
+        System.out.println("## 등록할 노선의 하행 종점역 이름을 입력하세요.");
+        return br.readLine();
+    }
+
+
+    public String lineDeleteInput() throws IOException {
+        System.out.println("## 삭제할 노선 이름을 입력하세요.");
         return br.readLine();
     }
 
