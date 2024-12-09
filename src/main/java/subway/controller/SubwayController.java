@@ -36,6 +36,9 @@ public class SubwayController {
                 LineRepository.checkRegistered(deleteStationName);
                 StationRepository.deleteStation(deleteStationName);
             }
+            if (stationManagementInput == 3) {
+                outputView.printStations(StationRepository.stations());
+            }
         }
     }
 
