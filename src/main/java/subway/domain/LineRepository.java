@@ -1,6 +1,7 @@
 package subway.domain;
 
 import static subway.utils.exception.ErrorMessage.NOT_EXIST_LINE;
+import static subway.utils.exception.ErrorMessage.REGISTERED_STATION;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,5 +32,13 @@ public class LineRepository {
         }
 
         throw new SubwayException(NOT_EXIST_LINE);
+    }
+
+    public static void checkRegistered(String name) {
+        for (Line line : lines) {
+            if (line.checkRegistered(name)) {
+                throw new SubwayException(REGISTERED_STATION);
+            }
+        }
     }
 }

@@ -17,4 +17,14 @@ public class Line {
     public String getName() {
         return name;
     }
+
+    public boolean checkRegistered(String name) {
+
+        for (Station station : stations) {
+            if (station.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
