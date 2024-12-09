@@ -60,8 +60,19 @@ public class SubwayController {
 
                     line.addStation(new Station(inputView.lineUpBoundTerminalInput()));
                     line.addStation(new Station(inputView.lineDownBoundTerminalInput()));
+
+                    outputView.printRegisterLine();
                 }
-                outputView.printRegisterLine();
+
+                if (lineManagementInput.equals("2")) {
+                    LineRepository.deleteLineByName(inputView.lineDeleteInput());
+                    outputView.printDeleteLine();
+                }
+
+                if (lineManagementInput.equals("3")) {
+                    outputView.printLines(LineRepository.lines());
+                }
+
             }
         } catch (SubwayException e) {
             System.out.println(e.getMessage());
