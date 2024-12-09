@@ -1,9 +1,12 @@
 package subway.domain;
 
+import static subway.utils.exception.ErrorMessage.NOT_EXIST_LINE;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import subway.utils.exception.SubwayException;
 
 public class LineRepository {
     private static final List<Line> lines = new ArrayList<>();
@@ -18,5 +21,15 @@ public class LineRepository {
 
     public static boolean deleteLineByName(String name) {
         return lines.removeIf(line -> Objects.equals(line.getName(), name));
+    }
+
+    public static Line findLineByName(String name) {
+        for (Line line : lines) {
+            if (line.getName().equals(name)) {
+                return line;
+            }
+        }
+
+        throw new SubwayException(NOT_EXIST_LINE);
     }
 }
