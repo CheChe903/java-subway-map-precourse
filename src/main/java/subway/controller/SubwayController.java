@@ -1,5 +1,7 @@
 package subway.controller;
 
+import static subway.utils.exception.ErrorMessage.KEY_ERROR;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,6 @@ import subway.domain.Line;
 import subway.domain.LineRepository;
 import subway.domain.Station;
 import subway.domain.StationRepository;
-import subway.utils.Converter;
 import subway.utils.exception.SubwayException;
 import subway.view.InputView;
 import subway.view.OutputView;
@@ -25,107 +26,33 @@ public class SubwayController {
     }
 
     public void run() throws IOException {
+        StationController stationController = new StationController(inputView, outputView);
+        LineController lineController = new LineController(inputView, outputView);
+        SectionController sectionController = new SectionController(inputView, outputView);
         try {
-            int mainInput = Converter.toInteger(inputView.mainInput());
+            String mainInput = inputView.mainInput();
 
-            if (mainInput == 1) {
-
-                String stationManagementInput = inputView.stationManagementInput();
-
-                if (stationManagementInput.equals("1")) {
-                    StationRepository.addStation(new Station(inputView.stationRegisterInput()));
-                    outputView.printRegisterStation();
-                    run();
-                }
-
-                if (stationManagementInput.equals("2")) {
-                    String deleteStationName = inputView.stationDeleteInput();
-                    LineRepository.checkRegistered(deleteStationName);
-                    StationRepository.deleteStation(deleteStationName);
-                    outputView.printDeleteStation();
-                    run();
-                }
-                if (stationManagementInput.equals("3")) {
-                    outputView.printStations(StationRepository.stations());
-                    run();
-                }
-
-                if (stationManagementInput.equals("B")) {
-                    run();
-                }
+            if (mainInput.equals("1")) {
+                stationController.stationManaging();
+                run();
             }
-            if (mainInput == 2) {
-                String lineManagementInput = inputView.lineManagementInput();
-
-                if (lineManagementInput.equals("1")) {
-                    String lineName = inputView.lineRegisterInput();
-
-                    List<Station> stations = new ArrayList<>();
-
-                    stations.add(StationRepository.findStationByName(inputView.lineUpBoundTerminalInput()));
-                    stations.add(StationRepository.findStationByName(inputView.lineDownBoundTerminalInput()));
-                    Line line = new Line(lineName, stations);
-                    LineRepository.addLine(line);
-                    outputView.printRegisterLine();
-                    run();
-                }
-
-                if (lineManagementInput.equals("2")) {
-                    LineRepository.deleteLineByName(inputView.lineDeleteInput());
-                    outputView.printDeleteLine();
-                    run();
-                }
-
-                if (lineManagementInput.equals("3")) {
-                    outputView.printLines(LineRepository.lines());
-                    run();
-                }
-
-                if (lineManagementInput.equals("B")) {
-                    run();
-                }
-
+            if (mainInput.equals("2")) {
+                lineController.lineManaging();
+                run();
             }
-
-            if (mainInput == 3) {
-                String sectionManagement = inputView.sectionInput();
-
-                if (sectionManagement.equals("1")) {
-                    String registerSectionOfLine = inputView.registerSectionOfLine();
-                    Line line = LineRepository.findLineByName(registerSectionOfLine);
-                    String registerSectionOfStation = inputView.registerSectionOfStation();
-                    line.checkAlreadyRegistered(registerSectionOfStation);
-                    Station station = StationRepository.findStationByName(registerSectionOfStation);
-                    int position = Converter.toInteger(inputView.registerSectionPosition());
-                    line.addStationWithPosition(station, position);
-
-                    outputView.printRegisterSection();
-                    run();
-                }
-
-                if (sectionManagement.equals("2")) {
-                    String deleteSectionOfLine = inputView.deleteSectionOfLine();
-                    String deleteSectionOfStation = inputView.deleteSectionOfStation();
-
-                    Line line = LineRepository.findLineByName(deleteSectionOfLine);
-
-                    Station station = line.findStationByName(deleteSectionOfStation);
-
-                    line.deleteStation(station.getName());
-
-                    outputView.printDeleteSection();
-                    run();
-                }
-
-                if (sectionManagement.equals("B")) {
-                    run();
-                }
+            if (mainInput.equals("3")) {
+                sectionController.sectionManaging();
+                run();
             }
-
-            if (mainInput == 4) {
+            if (mainInput.equals("4")) {
                 outputView.printSubwayRouteMap(LineRepository.lines());
                 run();
             }
+
+            if (mainInput.equals("Q")) {
+                return;
+            }
+            throw new SubwayException(KEY_ERROR);
         } catch (SubwayException e) {
             System.out.println(e.getMessage());
             run();
